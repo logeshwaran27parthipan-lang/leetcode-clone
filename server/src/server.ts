@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 import authRouter from './routes/auth.routes'
 import problemsRouter from './routes/problems.routes'
 import submissionsRouter from './routes/submissions.routes'
+import {protect} from './middleware/auth.middleware'
 
 
 dotenv.config()
@@ -20,7 +21,7 @@ app.get('/api/health', (req : Request, res : Response)=>{
 
 app.use('/api/auth', authRouter)
 app.use('/api/problems', problemsRouter)
-app.use('/api/submissions', submissionsRouter)
+app.use('/api/submissions', protect, submissionsRouter)
 
 
 app.listen(PORT, ()=>{
