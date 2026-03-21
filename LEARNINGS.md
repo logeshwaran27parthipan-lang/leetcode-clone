@@ -211,3 +211,30 @@ Things I know I'll need to learn:
 
 *Last updated: March 21, 2026*
 *Next update: After Phase 3 completes*
+
+## Phase 3 — Problems API
+**Completed: March 21, 2026**
+
+### New Prisma methods
+- `prisma.problem.findMany()` — returns ALL rows from a table as an array
+- `prisma.problem.findUnique({ where: { slug } })` — returns ONE row matching the condition. Returns null if not found.
+- Prisma auto-generates table properties from model names — `model Problem` becomes `prisma.problem`
+
+### New Express patterns
+- `req.params.slug` — reads URL parameters. In route `/:slug`, the value after / is available as `req.params.slug`
+- `router.get('/:slug', ...)` — the `:` prefix makes it a dynamic parameter
+
+### Seeding
+- `prisma/seed.ts` — a script that inserts sample data for development
+- `npx ts-node prisma/seed.ts` — runs the seed file directly
+- `prisma.$disconnect()` — closes database connection so script exits cleanly
+- Always seed before testing GET routes — can't test empty data
+
+### General lessons
+- Always return 404 with a message when findUnique returns null
+- POST routes that create data return 201 status + the created object
+- `~$` files are Word temp files — add `~$*` to .gitignore
+- Object destructuring uses {} — array destructuring uses []
+
+*Last updated: March 22, 2026*
+*Next update: After Phase 4 completes*
