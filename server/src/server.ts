@@ -5,6 +5,7 @@ import authRouter from './routes/auth.routes'
 import problemsRouter from './routes/problems.routes'
 import submissionsRouter from './routes/submissions.routes'
 import {protect} from './middleware/auth.middleware'
+import cors from 'cors'
 
 
 dotenv.config()
@@ -13,6 +14,7 @@ const app = express()
 const PORT=process.env.PORT || 4000
 
 app.use(express.json());//acts as middleman converts raw text to jsobjects from the apiroutes
+app.use(cors()); // used to allow frontend requests
 
 //health check
 app.get('/api/health', (req : Request, res : Response)=>{
