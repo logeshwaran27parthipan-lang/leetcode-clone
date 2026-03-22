@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom";
 import api from "../api/axios";
 
 type Problem = {
@@ -25,7 +26,9 @@ function Problems() {
         <div>
             <h1>Problems Page</h1>
             {problems.map((prob)=>(
-                <p key={prob.id}>{prob.title}</p>
+                <div key={prob.id}>
+                <Link to={`/problems/${prob.slug}`}>{prob.title} </Link>
+                </div>
             ))}
         </div>
     )
