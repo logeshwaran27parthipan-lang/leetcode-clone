@@ -10,6 +10,16 @@ const router = Router()
 router.post('/register', async (req, res)=>{
     try{
     const {email, username, password} = req.body  //get values
+    if((!email || !username || !password) ){
+        return res.status(400).json({message:"All fields are required"})
+    }
+    if(password.length<8){
+        return res.status(400).json({message:"Password must be at least 8 characters"})
+    }
+        if(!/[!@#$%^&*]/.test(password)){
+        return res.status(400).json({message: "Password must contain at least one special character"})
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10) //hash password
     const user = await prisma.user.create({
         data: {
@@ -30,6 +40,7 @@ router.post('/register', async (req, res)=>{
     }})//status check
 }
 catch(error){
+    console.log(error)
     res.status(500).json({message: 'Something went wrong'})
 }
 

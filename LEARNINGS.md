@@ -238,3 +238,122 @@ Things I know I'll need to learn:
 
 *Last updated: March 22, 2026*
 *Next update: After Phase 4 completes*
+
+## Phase 4 — Frontend Setup
+**Completed: March 22, 2026**
+
+### CORS
+- CORS = Cross Origin Resource Sharing — browser security rule blocking requests between different origins
+- Origin = protocol + domain + port. Frontend (5173) and backend (4000) are different origins — different ports
+- Without cors() middleware — browser blocks ALL frontend requests to backend silently
+- app.use(cors()) adds Access-Control-Allow-Origin: * header — browser allows the request
+- In production — restrict to specific domain: app.use(cors({ origin: 'https://yourapp.vercel.app' }))
+
+### Axios
+- axios.create({ baseURL }) — creates reusable instance with preset URL prefix
+- api.get('/problems') automatically sends to http://localhost:4000/api/problems
+- axios wraps response — actual data is in response.data not response directly
+- Always check network errors in browser console — the URL shown reveals typos immediately
+
+### React Router
+- BrowserRouter wraps the whole app — enables URL routing
+- Routes holds all Route definitions
+- Route maps a path to a component — path="/problems/:slug" captures dynamic segment
+- Link component — navigates without page reload. Use instead of <a> for internal links
+- useParams() — reads URL parameters. const { slug } = useParams() gets the :slug value
+- Name inside {} must match the parameter name defined in the Route path
+
+### Data Fetching Pattern
+- useState<Type[]>([]) — always type your state arrays so TypeScript knows what's inside
+- useState<Type | null>(null) — use null as initial value when data hasn't loaded yet
+- Guard clause: if (!data) return <div>Loading...</div> — prevents null crashes
+- useEffect can't be async directly — create async function inside and call it immediately
+- [] dependency = runs once on mount. [slug] = runs on mount and when slug changes
+- response.data — where axios puts your actual JSON. response itself is the wrapper object
+
+### General Lessons
+- key prop in lists must be unique and stable — use ID not array index
+- Object destructuring {} extracts by name. Array destructuring [] extracts by position
+- UUID vs auto-increment: UUID is unguessable, works across servers, no conflicts
+- ~$* in .gitignore — prevents Word temp files from being committed
+- Two terminals needed: one for frontend (port 5173), one for backend (port 4000)
+
+*Last updated: March 22, 2026*
+*Next update: After Phase 5 completes*
+
+## Phase 5 — Frontend Authentication
+
+**Completed: March 2026**
+
+### Auth Context
+
+* Context = global state — avoids prop drilling
+* `createContext()` — creates shared state container
+* `AuthProvider` wraps app — provides auth to all components
+* `useContext(AuthContext)` — access auth state anywhere
+* `children` — components inside Provider
+* `React.ReactNode` — any renderable React content
+
+### Token Storage (localStorage)
+
+* `setItem` — store data in browser
+* `getItem` — retrieve stored data
+* `removeItem` — delete stored data
+* Stores only strings — use JSON for objects
+* Persists after refresh — keeps user logged in
+* Used in `useState` for initial token load
+
+### Auth Flow
+
+* Login/Register → API → token → store → set state → redirect
+* Logout → remove token → clear state
+* localStorage = persistence, state = reactivity
+* Context replaces direct localStorage usage
+
+### Form Handling
+
+* `e.preventDefault()` — stops page reload
+* Use `onSubmit` on form — not `onClick` on button
+* `React.FormEvent<HTMLFormElement>` — correct event type
+
+### Validation
+
+* Frontend — fast feedback, better UX
+* Backend — real security, cannot be bypassed
+* Both required — UX + protection
+* `||` = ANY condition (used for required fields)
+* `&&` = ALL conditions (not for empty checks)
+* `return setError()` — shows error + stops execution
+
+### Password Rules
+
+* Length ≥ 8 characters
+* Must include special character
+* Regex `/[!@#$%^&*]/` — checks allowed symbols
+* `!` negates — detects missing condition
+
+### HTTP Status Codes
+
+* 400 — Bad Request (invalid input)
+* 401 — Unauthorized (wrong credentials)
+* 200 — OK (login success)
+* 201 — Created (register success)
+* 500 — Server Error
+
+### Navigation
+
+* `useNavigate()` — get navigation function
+* `navigate('/')` — redirect programmatically
+* Used after login/register
+* Naming convention — lowercase `navigate`
+
+### General Lessons
+
+* Use separate `if` statements — don’t combine logic
+* Return responses directly — `return res.status(...)`
+* Frontend = UX, Backend = security
+* Backend is final authority — frontend can be bypassed
+* JWT starting with `eyJ` = valid encoded token
+
+*Last updated: March 24, 2026*
+*Next update: After Phase 6 completes*
