@@ -4,8 +4,10 @@ import Problems from "./pages/Problems"
 import ProblemDetail from "./pages/ProblemDetail"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import Submissions from "./pages/Submissions"
 import { AuthProvider } from "./context/AuthContext"
-// import './App.css'
+import ProtectedRoutes from "./pages/ProtectedRoute"
+import './App.css'
 function App() {
   return(
     <>
@@ -18,6 +20,11 @@ function App() {
           <Route path="/problems/:slug" element={<ProblemDetail/>}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/register" element={<Register />}/>
+          <Route path="/submissions" element={
+            <ProtectedRoutes>
+              <Submissions/>
+            </ProtectedRoutes>}
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

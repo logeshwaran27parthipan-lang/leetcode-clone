@@ -1,4 +1,4 @@
-import { useState,useContext} from "react"
+import { useState, useContext} from "react"
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -13,6 +13,10 @@ function Login() {
     
     const navigate = useNavigate()
 
+   
+
+
+
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>)=>{ // React.FormEvent is correct here (React synthetic event); TS "deprecated" warning comes from DOM types — safe to ignore
         e.preventDefault();
         try{
@@ -25,6 +29,7 @@ function Login() {
         }
     
     }
+    
 
     return(
         <div>

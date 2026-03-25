@@ -1,0 +1,22 @@
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
+
+
+type ProtectedRoutesProps = {
+    children:React.ReactNode
+}
+
+
+function ProtectedRoutes({children}: ProtectedRoutesProps){
+
+    const {token} = useContext(AuthContext)
+
+    if(!token)
+        return <Navigate to='/login' />
+
+    return(
+        <>{children}</>
+    )
+}
+export default ProtectedRoutes

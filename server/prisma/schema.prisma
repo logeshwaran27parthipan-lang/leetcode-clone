@@ -64,6 +64,6 @@ model Submissions{
   problem Problem @relation(fields: [problemId], references: [id])
 
   code String
-  status Status
+  status Status 
   submittedAt DateTime @default(now())
 }

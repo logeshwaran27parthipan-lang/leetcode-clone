@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useParams } from "react-router-dom"
 import api from '../api/axios'
+import  Editor  from "@monaco-editor/react"
+import type { editor } from "monaco-editor"
 
 type problemDetail = {
     id: string
@@ -14,6 +16,11 @@ type problemDetail = {
 function ProblemDetail() {
 
     const [problemDetail, setProblemDetail] = useState<problemDetail | null>(null);
+
+    const [result, setResult] = useState<string | null>(null)
+
+    const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
+
     const {slug} = useParams();
 
     useEffect(()=>{
@@ -23,6 +30,28 @@ function ProblemDetail() {
         }
         fetchProblemDetail()
     },[slug])
+
+    const handleMount = (editor:editor.IStandaloneCodeEditor | null)=>{
+        editorRef.current = editor
+        console.log(editorRef.current)
+    } 
+
+    const handleSubmit = async()=>{
+        try{
+            if(!problemDetail) return;
+            if(!editorRef.current) return ;
+
+            const code = editorRef.current.getValue();
+            const req = await api.post('/submissions', {problemId: problemDetail.id, code})
+            setResult(req.data.status)
+        }
+        
+        catch{
+            setResult("Error")
+        }
+
+    }
+
     if (!problemDetail) return <div>Loading...</div>
     return(
         <div>
@@ -31,6 +60,14 @@ function ProblemDetail() {
             <p>{problemDetail.difficulty}</p>
             <p>{problemDetail.description}</p>
             <p>{problemDetail.tags}</p>
+            <Editor 
+                height="400px"
+                language="javascript"
+                defaultValue=""
+                onMount={handleMount}
+            />
+            <button type="submit" onClick={handleSubmit}>Submit Code</button>
+            {result && <p>{result}</p>}
         </div>
     )
 }
