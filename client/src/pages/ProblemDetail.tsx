@@ -47,7 +47,7 @@ function ProblemDetail() {
         }
         
         catch{
-            setResult("Error")
+            setResult("Login to submit")
         }
 
     }

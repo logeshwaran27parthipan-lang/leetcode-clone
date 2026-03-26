@@ -20,7 +20,7 @@ function Login() {
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>)=>{ // React.FormEvent is correct here (React synthetic event); TS "deprecated" warning comes from DOM types — safe to ignore
         e.preventDefault();
         try{
-            const res = await api.post('auth/login', {email, password})
+            const res = await api.post('/auth/login', {email, password})
             Login(res.data.token)
             navigate('/')
         }

@@ -7,6 +7,7 @@ import Register from "./pages/Register"
 import Submissions from "./pages/Submissions"
 import { AuthProvider } from "./context/AuthContext"
 import ProtectedRoutes from "./pages/ProtectedRoute"
+import Navbar from "./pages/Navbar"
 import './App.css'
 function App() {
   return(
@@ -14,6 +15,7 @@ function App() {
     <title>Leetcode</title>
     <AuthProvider>
       <BrowserRouter>
+      <Navbar />
         <Routes>
           <Route path="/" element={<Home />}/>
           <Route path="/problems" element={<Problems />}/>

@@ -357,3 +357,77 @@ Things I know I'll need to learn:
 
 *Last updated: March 24, 2026*
 *Next update: After Phase 6 completes*
+
+## Phase 6 — Code Editor & Submissions
+**Completed: March 2026**
+
+### Monaco Editor
+- @monaco-editor/react — React wrapper for VS Code's editor
+- import Editor from "@monaco-editor/react" — default import, not named
+- import type { editor } from "monaco-editor" — imports only TypeScript types, zero bundle size impact
+- onMount fires once when editor finishes loading — store editor instance here
+- editor.IStandaloneCodeEditor — correct TypeScript type for Monaco editor instance
+- editorRef.current.getValue() — reads current code from editor
+
+### useRef vs useState for Editor
+- useState + onChange = re-render on every keystroke = laggy editor
+- useRef = stores reference without causing re-renders = correct for editors
+- useRef(null) — starts null, gets value after onMount fires
+- Always guard: if(!editorRef.current) return — editor may not have loaded yet
+
+### import type
+- import type { X } from "y" — brings in TypeScript type only, no runtime code
+- Regular import brings in actual JavaScript — increases bundle size
+- Use import type whenever you only need something for type annotations
+
+### Axios Interceptor
+- Interceptor = frontend middleware — runs before every axios request automatically
+- Without it — must manually attach token to every single API call
+- api.interceptors.request.use((config) => { ... return config })
+- config — the request object containing URL, headers, body
+- config.headers.Authorization = `Bearer ${token}` — attaches token
+- return config — ALWAYS required — without it request never leaves
+- localStorage.getItem("token") — reads token inside interceptor
+- Bearer prefix — required because auth.middleware.ts checks header.startsWith("Bearer ")
+
+### Submissions Backend
+- prisma.submissions.findMany({ where: { userId } }) — filter by condition
+- import { Status } from "@prisma/client" — import Prisma enum types
+- Status.ACCEPTED — correct typed enum value, not plain string "ACCEPTED"
+- (req as any).userId — userId attached by protect middleware, available in all protected routes
+- 201 status for POST (created), 200 status for GET (success)
+- Status hardcoded as ACCEPTED for now — real test case validation is future work
+
+### Protected Routes
+- ProtectedRoute component — checks token before rendering page
+- if(!token) return <Navigate to='/login' /> — redirect if not logged in
+- <>{children}</> — React Fragment — renders wrapped content with no extra HTML
+- children prop — whatever components are wrapped inside the component
+- Navigate from react-router-dom — programmatic redirect component
+- Wrap route in App.tsx: <ProtectedRoute><Page /></ProtectedRoute>
+
+### Null Guards
+- Async values start as null — API data, refs, external libraries
+- Always guard before using: if(!value) return
+- Guard stops function silently — page stays visible, only handler stops
+- problemDetail starts null → guard before using problemDetail.id
+- editorRef.current starts null → guard before calling .getValue()
+
+### HTTP Status Codes (complete set used so far)
+- 200 — OK — successful GET/read
+- 201 — Created — successful POST/create
+- 400 — Bad Request — invalid input from user
+- 401 — Unauthorized — missing or invalid token
+- 404 — Not Found — resource doesn't exist
+- 500 — Internal Server Error — something crashed on server
+
+### General Lessons
+- Frontend protection + backend protection both needed — different purposes
+- Frontend ProtectedRoute = good UX — redirect before page loads
+- Backend protect middleware = real security — rejects requests without valid token
+- Regex /[!@#$%^&*]/.test(string) — checks if string contains special character
+- UUIDs in submissions — userId and problemId stored as UUIDs, not display names
+- Submissions page shows raw UUIDs — UI improvement (showing problem titles) is future work
+
+*Last updated: March 25, 2026*
+*Next update: After Phase 7 completes*
