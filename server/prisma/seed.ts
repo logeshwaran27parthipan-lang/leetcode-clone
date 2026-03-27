@@ -32,3 +32,34 @@ async function main() {
 main()
 .catch(console.error)
 .finally(()=>prisma.$disconnect())
+
+
+
+/* 
+// best alternative for the above main
+await prisma.problem.createMany({
+  data: [
+    {
+      title: "Two Sum",
+      slug: "two-sum",
+      description: "...",
+      difficulty: "EASY",
+      tags: ["Arrays", "HashMap"]
+    },
+    {
+      title: "Reverse String",
+      slug: "reverse-string",
+      description: "...",
+      difficulty: "EASY",
+      tags: ["Strings", "Two Pointers"]
+    },
+    {
+      title: "Valid Parentheses",
+      slug: "valid-parentheses",
+      description: "...",
+      difficulty: "MEDIUM",
+      tags: ["Strings", "Stack"]
+    }
+  ],
+    skipDuplicates:true
+}) */
