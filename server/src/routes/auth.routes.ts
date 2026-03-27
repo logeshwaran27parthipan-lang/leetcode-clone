@@ -40,7 +40,7 @@ router.post('/register', async (req, res)=>{
     }})//status check
 }
 catch(error){
-    console.log(error)
+    console.error(error)
     res.status(500).json({message: 'Something went wrong'})
 }
 
@@ -75,7 +75,7 @@ router.post('/login', async (req,res)=>{
 
     }
     catch(error){
-        console.log(error)
+        console.error(error)
         res.status(500).json({message: 'Something went wrong'})
     }
 

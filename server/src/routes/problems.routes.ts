@@ -10,7 +10,7 @@ router.get('/', async (req,res)=>{
         res.json(Problems)
     }
     catch(error){
-        console.log(error)
+        console.error(error)
         res.status(500).json({message: "Server Error"})
     }
 })
@@ -45,7 +45,7 @@ router.post('/', protect, async (req, res)=>{
         res.status(201).json(newProblem)
     }
     catch(error){
-        console.log(error)
+        console.error(error)
         res.status(500).json({message: "Server Error"})
     }
 })

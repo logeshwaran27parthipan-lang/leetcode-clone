@@ -33,7 +33,6 @@ function ProblemDetail() {
 
     const handleMount = (editor:editor.IStandaloneCodeEditor | null)=>{
         editorRef.current = editor
-        console.log(editorRef.current)
     } 
 
     const handleSubmit = async()=>{

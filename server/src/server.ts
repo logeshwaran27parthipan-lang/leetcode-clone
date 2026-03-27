@@ -14,7 +14,11 @@ const app = express()
 const PORT=process.env.PORT || 4000
 
 app.use(express.json());//acts as middleman converts raw text to jsobjects from the apiroutes
-app.use(cors()); // used to allow frontend requests
+app.use(cors({
+    origin: "https://leetcode-clone-o3moayl37-logeshwaran27parthipan-langs-projects.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+})); // used to allow frontend requests
 
 //health check
 app.get('/api/health', (req : Request, res : Response)=>{

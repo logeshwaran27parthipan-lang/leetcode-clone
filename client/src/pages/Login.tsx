@@ -8,6 +8,7 @@ function Login() {
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const {Login} = useContext(AuthContext)
     
@@ -20,12 +21,16 @@ function Login() {
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>)=>{ // React.FormEvent is correct here (React synthetic event); TS "deprecated" warning comes from DOM types — safe to ignore
         e.preventDefault();
         try{
+            setIsLoading(true)
             const res = await api.post('/auth/login', {email, password})
             Login(res.data.token)
             navigate('/')
         }
-        catch(error){
-            console.log(error);
+        catch (error: any) {
+            alert(error.response?.data?.message || "Login failed");
+        }
+        finally {
+            setIsLoading(false);
         }
     
     }
@@ -34,6 +39,7 @@ function Login() {
     return(
         <div>
             <h1>Login Page</h1>
+                {isLoading? <p>Loading...</p> : 
                 <form onSubmit={handleLogin}>
                     <input
                         type="email" 
@@ -46,8 +52,10 @@ function Login() {
                         placeholder="Enter password"
                         value={password}
                         onChange={(e)=>setPassword(e.target.value)}/>
-                    <button type="submit">Login</button>
-                </form>
+                        <button type="submit" disabled={isLoading}>
+                            {isLoading ? "Logging in..." : "Login"}
+                        </button>
+                </form>}
         </div>
     )
 }

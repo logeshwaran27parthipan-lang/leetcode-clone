@@ -21,7 +21,7 @@ router.post('/', async (req, res)=>{
 
     }
     catch(error){
-        console.log(error)
+        console.error(error)
     }
 })
 
@@ -34,7 +34,7 @@ router.get('/me', async (req, res)=>{
         return res.status(200).json(userSubmissions)       
     } 
     catch (error) {
-        console.log(error)
+        console.error(error)
     }
 })
 

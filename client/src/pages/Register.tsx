@@ -31,8 +31,8 @@ function Register() {
             navigate('/')
                      
         }
-        catch(error){
-            console.log(error)   
+        catch (error: any) {
+            alert(error.response?.data?.message || "Register failed");
         }
     }
 
