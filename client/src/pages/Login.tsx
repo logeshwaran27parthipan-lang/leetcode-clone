@@ -26,8 +26,8 @@ function Login() {
             Login(res.data.token)
             navigate('/')
         }
-        catch (error: any) {
-            alert(error.response?.data?.message || "Login failed");
+        catch {
+            alert("Login failed. Please check your credentials.")
         }
         finally {
             setIsLoading(false);
@@ -38,8 +38,7 @@ function Login() {
 
     return(
         <div>
-            <h1>Login Page</h1>
-                {isLoading? <p>Loading...</p> : 
+            <h1>Login Page</h1> 
                 <form onSubmit={handleLogin}>
                     <input
                         type="email" 
@@ -55,7 +54,7 @@ function Login() {
                         <button type="submit" disabled={isLoading}>
                             {isLoading ? "Logging in..." : "Login"}
                         </button>
-                </form>}
+                </form>
         </div>
     )
 }
