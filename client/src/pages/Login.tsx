@@ -26,8 +26,8 @@ function Login() {
             Login(res.data.token)
             navigate('/')
         }
-        catch {
-            alert("Login failed. Please check your credentials.")
+        catch (error: any) {
+            alert(error.response?.data?.message || "Login failed");
         }
         finally {
             setIsLoading(false);
