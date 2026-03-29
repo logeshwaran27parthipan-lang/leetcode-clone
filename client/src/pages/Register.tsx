@@ -35,31 +35,41 @@ function Register() {
             alert("Register failed. Please check your credentials.")
         }
     }
+    const inputClass = "bg-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-300 border border-orange-300 rounded-md px-3 py-1 w-full"    
 
     return(
-        <div>
-            <h1>Register Page</h1>
-            <form onSubmit={handleRegister}>
+        <div className="pt-20  bg-gray-900 min-h-screen text-white justify-items-center">
+            <h1 className="text-4xl font-bold p-8">Register 🚀</h1>
+            <form 
+                onSubmit={handleRegister} 
+                className="flex flex-col gap-6 p-8 max-w-md w-full
+                border border-orange-300 border-solid rounded-lg">
                 <input 
+                    className={inputClass}
                     type="email" 
                     placeholder="Enter Email"
                     value={email}
                     onChange={(e)=>setEmail(e.target.value)}
                      />
-                <br />
                 <input 
+                    className={inputClass}                    
                     type="text" 
                     placeholder="Enter Username" 
                     value={username}
                     onChange={(e)=>setUsername(e.target.value)}/>
-                <br />
                 <input 
+                    className={inputClass}
                     type="password" 
                     placeholder="Enter Password" 
                     value={password}
                     onChange={(e)=>setPassword(e.target.value)}/>
-                    <button type="submit">Register</button>
-                    {error && <p>{error}</p>}
+
+                    <button 
+                        type="submit"
+                        className="bg-orange-500 px-20 py-2 rounded-lg hover:bg-orange-600 shadow-lg transition inline-block ">
+                            Register
+                    </button>
+                    {error && <p className="text-red-400 text-center text-sm border rounded-md">{error}</p>}
             </form>
         </div>
     )

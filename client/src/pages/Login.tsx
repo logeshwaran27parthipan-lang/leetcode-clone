@@ -1,5 +1,6 @@
 import { useState, useContext} from "react"
 import api from "../api/axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
  
@@ -26,32 +27,44 @@ function Login() {
             Login(res.data.token)
             navigate('/')
         }
-        catch (error: any) {
-            alert(error.response?.data?.message || "Login failed");
+        catch(error) {
+            if(axios.isAxiosError(error)) {
+            alert(error.response?.data?.message || "Login failed")
+         } 
+            else {
+                alert("Login failed")
+            }
         }
         finally {
             setIsLoading(false);
         }
     
     }
-    
+    const inputClass = "bg-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-300 border border-orange-300 rounded-md px-3 py-1 w-full"
 
     return(
-        <div>
-            <h1>Login Page</h1> 
-                <form onSubmit={handleLogin}>
+        <div className="pt-20  bg-gray-900 min-h-screen text-white justify-items-center">
+            <h1 className="text-4xl font-bold p-8">Login 🚀</h1> 
+                <form 
+                onSubmit={handleLogin}
+                className="flex flex-col gap-6 p-8 max-w-md w-full
+                border border-orange-300 border-solid rounded-lg">
                     <input
+                        className={inputClass}
                         type="email" 
                         placeholder="Enter email" 
                         value={email} 
                         onChange={(e)=>setEmail(e.target.value)} />
-                    <br />
                     <input 
+                        className={inputClass}
                         type="password" 
                         placeholder="Enter password"
                         value={password}
                         onChange={(e)=>setPassword(e.target.value)}/>
-                        <button type="submit" disabled={isLoading}>
+                        <button 
+                            className="bg-orange-500 px-20 py-2 rounded-lg hover:bg-orange-600 shadow-lg transition inline-block "
+                            type="submit"
+                            disabled={isLoading}>
                             {isLoading ? "Logging in..." : "Login"}
                         </button>
                 </form>

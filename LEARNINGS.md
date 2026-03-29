@@ -431,3 +431,75 @@ Things I know I'll need to learn:
 
 *Last updated: March 25, 2026*
 *Next update: After Phase 7 completes*
+
+## Phase 7 — Polish & Deploy
+**Completed: March 2026**
+
+### Deployment Architecture
+- Frontend → Vercel (free, auto-deploys from GitHub)
+- Backend → Render Web Service (free tier, sleeps after 15min inactivity)
+- Database → Render PostgreSQL (free tier, persistent)
+- Each layer deployed separately — they communicate via HTTP
+
+### Render Deployment
+- Root directory must be set to `server` — not repo root
+- Build command: `npm install && npm run build && npx prisma generate && npx prisma migrate deploy`
+- Start command: `npm start` — runs `node dist/server.js`
+- Only `dependencies` are installed on Render — not `devDependencies`
+- TypeScript, @types/*, ts-node must be in `dependencies` for Render to compile
+- Environment variables set on Render dashboard — never in code
+
+### Vercel Deployment
+- Root directory set to `client`
+- Vite auto-detected — build command `vite build`, output `dist`
+- Environment variables set on Vercel dashboard
+- `VITE_` prefix required for Vite to expose variables to frontend
+- `import.meta.env.VITE_API_URL` — how Vite reads env vars (not process.env)
+- Every push to main = new deployment automatically
+
+### Environment Variables
+- Never commit `.env` files — always in `.gitignore`
+- Backend uses `process.env.VARIABLE_NAME` (Node.js)
+- Frontend uses `import.meta.env.VITE_VARIABLE_NAME` (Vite)
+- Set separately on each platform dashboard
+
+### CORS in Production
+- `cors()` with no config = any origin allowed = security risk
+- Always restrict to specific origins in production
+- origin accepts array — use for multiple URLs (localhost + production)
+- Always include full protocol: `https://` — missing it = invalid value error
+- `credentials: true` — required for Authorization header to work cross-origin
+- Vercel preview URLs change every deploy — use stable production URL
+- methods array — explicitly list allowed HTTP methods
+
+### Prisma in Production
+- `prisma generate` — creates TypeScript client from schema — needed every build
+- `prisma migrate deploy` — applies migrations to database — creates tables
+- Without migrate deploy — production DB has no tables — every API call crashes
+- Run both in build command on Render
+
+### Cold Start Problem
+- Render free tier sleeps after 15 minutes of inactivity
+- First request after sleep = 30-60 second delay
+- Solution 1: cron-job.org — pings /api/health every 10 minutes — server never sleeps
+- Solution 2: warm-up fetch in App.tsx — wakes server when user opens app
+- Solution 3: loading state — user sees feedback during wait
+- Best: combine cron-job.org + loading state
+
+### Loading State Pattern
+- `useState(false)` for isLoading
+- `setIsLoading(true)` before API call
+- `setIsLoading(false)` in `finally` block — always runs whether success or error
+- `finally` — runs after try AND catch — perfect for cleanup
+- `disabled={isLoading}` on button — prevents double submission
+- Keep form visible, only change button text — better UX than hiding form
+
+### Production Debugging
+- Always check browser DevTools Network tab first
+- Error message tells you exactly what's wrong
+- CORS errors show which origin was blocked and what was expected
+- Status codes: 200=ok, 201=created, 400=bad input, 401=unauthorized, 500=server crash
+- Check Render build logs for deployment errors
+
+*Last updated: March 28, 2026*
+*Next update: After Phase 8 completes*

@@ -21,7 +21,7 @@ router.post('/', async (req, res)=>{
 
     }
     catch(error){
-        console.error(error)
+        console.log(error)
     }
 })
 
@@ -29,7 +29,17 @@ router.get('/me', async (req, res)=>{
     try {
         const userId = (req as any).userId
         const userSubmissions = await prisma.submissions.findMany({
-            where: {userId}
+            where: {userId},
+            orderBy:{
+                submittedAt:"desc"
+            },
+            include:{
+                problem:{
+                    select:{
+                        title: true, slug: true
+                    }
+                }
+            }
         }) 
         return res.status(200).json(userSubmissions)       
     } 
