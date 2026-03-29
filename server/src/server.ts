@@ -15,7 +15,7 @@ const PORT=process.env.PORT || 4000
 
 app.use(express.json());//acts as middleman converts raw text to jsobjects from the apiroutes
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://leetcode-clone-log-17.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 })); // used to allow frontend requests
