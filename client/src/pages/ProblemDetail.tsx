@@ -52,14 +52,13 @@ function ProblemDetail() {
     }
     const card="bg-gray-800 border rounded-xl border-orange-900 px-3 py-3 hover:bg-gray-700 transition duration-200  gap-6 space-x-2"
 
-    const resultCard = "bg-gray-800 block w-full font-bold text-center  border rounded-xl px-3 py-2  gap-6 "
+    const resultCard = "col-span-2 bg-gray-800 block  font-bold text-center  border rounded-xl px-3 py-2  gap-6 "
 
     if (!problemDetail) return (
                   <div className="bg-gray-900 min-h-screen flex items-center justify-center text-white text-xl">Loading...</div>
             );
-    return(
-        <div className="pt-20 bg-gray-900 min-h-screen p-6 text-white space-y-3">   
-        <div className=" grid gap-4 grid-cols-[1fr_3fr]">
+    return(  
+        <div className="pt-20 bg-gray-900 min-h-screen p-6 text-white space-y-3 grid gap-4 grid-cols-[1fr_3fr]">
            
             <div  className="bg-gray-800 
                     border rounded-xl border-orange-900 p-4
@@ -90,7 +89,7 @@ function ProblemDetail() {
                     hover:bg-gray-700 transform hover:scale-103 shadow-md hover:shadow-xl transition duration-200 
                     flex flex-col gap-6">
             <Editor 
-                className="border-8 border-orange-400 rounded-xl"
+                className="border-8  border-orange-400 rounded-xl"
                 height="400px"
                 language="javascript"
                 defaultValue=""
@@ -100,17 +99,14 @@ function ProblemDetail() {
             className="bg-orange-500 px-2 py-2 rounded-lg hover:bg-orange-600 shadow-lg transition inline-block "
             type="submit" onClick={handleSubmit}>Submit Code</button>
             </div>
-
-
-            
-        </div>
-        {result && <p
+            {result && <p
                 className={`${resultCard}
                 ${result==="ACCEPTED"? "text-green-500 border-green-500 bg-green-900 ":"text-red-500 border-red-500 bg-red-600"}`
             }
             >{result} </p>}
+            
+        </div>
 
-        </div> 
     )
 }
 

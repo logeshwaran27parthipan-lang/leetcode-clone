@@ -53,7 +53,7 @@ function Submissions(){
                         onClick={() => toggleCode(item.id)}>
                         {expandedId === item.id ? "Hide Code" : "View Code"}
                     </button>
-                    {expandedId === item.id && <pre className="col-span-4 bg-white text-black p-2 text-wrap border rounded-lg border-orange-500">{item.code}</pre>} 
+                    {expandedId === item.id && <pre className="col-span-4 mt-4 bg-white text-black p-2 text-wrap border rounded-lg border-orange-500">{item.code}</pre>} 
             
                 </div>
                 
